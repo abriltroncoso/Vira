@@ -1,0 +1,149 @@
+.studio {
+    width: min(1180px, calc(100% - 2.5rem));
+    margin-inline: auto;
+  
+    display: grid;
+    gap: 3rem;
+  
+    padding: 2rem 0 7rem;
+    align-items: center;
+  }
+  
+  .studio__photos {
+    position: relative;
+    min-height: 22rem;
+  }
+  
+  .polaroid {
+    position: absolute;
+  
+    width: 11.4rem;
+  
+    background: #fff;
+    padding: 0.7rem 0.7rem 1.7rem;
+  
+    box-shadow: 0 10px 28px rgba(40, 40, 38, 0.12);
+  
+    margin: 0;
+  }
+  
+  .polaroid__photo {
+    height: 11.6rem;
+    background: #cfcfcb;
+  }
+  
+  .polaroid figcaption {
+    margin-top: 0.7rem;
+  
+    text-align: center;
+  
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: 'Geist Mono', monospace;
+    font-weight: 700;
+    text-decoration: none;
+    color: #6a6965;
+  }
+  
+  .polaroid__pin {
+    position: absolute;
+  
+    top: 0.35rem;
+    left: 42%;
+  
+    width: 1.05rem;
+    height: 1.05rem;
+  
+    border-radius: 50%;
+  
+    background: radial-gradient(
+      circle at 35% 32%,
+      #6f8cc4,
+      #4d6fae 55%,
+      #2a4478
+    );
+  
+    box-shadow: 0 2px 4px rgba(20, 30, 50, 0.28);
+  
+    z-index: 2;
+  }
+  
+  .polaroid--victoria {
+    left: 8%;
+    top: 4.6rem;
+  
+    transform: rotate(-16deg);
+    z-index: 1;
+  }
+  
+  .polaroid--abril {
+    left: 38%;
+    top: 0.4rem;
+  
+    transform: rotate(11deg);
+    z-index: 2;
+  }
+  
+  .polaroid--abril .polaroid__pin {
+    left: 48%;
+  }
+  
+  .studio__copy {
+    max-width: 22rem;
+    justify-self: end;
+  }
+  
+  .studio__copy h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.15rem;
+  }
+  
+  .studio__copy p {
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: #7a7974;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+  }
+  
+  .studio__copy p + p {
+    margin-top: 1.05rem;
+  }
+  
+  @media (min-width: 860px) {
+    .studio {
+      grid-template-columns: 1.15fr 0.85fr;
+      min-height: 26rem;
+    }
+  }
+  
+  @media (max-width: 859px) {
+    .studio__photos {
+      min-height: 20rem;
+    }
+  
+    .polaroid {
+      width: 10.2rem;
+    }
+  
+    .polaroid__photo {
+      height: 10.2rem;
+    }
+  
+    .polaroid--victoria {
+      left: 0;
+    }
+  
+    .polaroid--abril {
+      left: 32%;
+    }
+  
+    .studio__copy {
+      justify-self: start;
+    }
+  }

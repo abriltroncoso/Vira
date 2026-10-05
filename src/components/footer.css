@@ -1,0 +1,81 @@
+.footer {
+    position: relative;
+  
+    color: #f4f1ea;
+  
+    padding: 4.8rem clamp(1.25rem, 6vw, 5.5rem) 1.4rem;
+    min-height: 18.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+    background-color: #1a3b58;
+    background-image: url('/denim.png');
+    background-size: 180px auto;
+  
+    font-family: 'Geist Mono', monospace;
+    font-weight: 400;
+    text-decoration: none;
+  }
+  
+  .footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  
+  .footer > * {
+    position: relative;
+  }
+  
+  .footer__top,
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Geist Mono', monospace;
+    font-weight: 400;
+    text-decoration: none;
+    color: #f7f4ee;
+  }
+  
+  .footer__top a,
+  .footer__bottom p {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Geist Mono', monospace;
+    font-weight: 400;
+    text-decoration: none;
+    color: #f7f4ee;
+  }
+  
+  .footer__mark {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3.2rem, 11vw, 8.1rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.88;
+  
+    text-align: center;
+  
+    padding: 1.4rem 0 1.8rem;
+  
+    color: #f7f4ee;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    }
+  
+  .footer__mark sup {
+    font-size: 0.28em;
+    letter-spacing: 0;
+    margin-left: 0.08em;
+    top: -1.05em;
+    font-family: 'Geist Mono', monospace;
+    font-weight: 700;
+    text-decoration: none;
+  }

@@ -1,0 +1,127 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent;
+}
+
+.gridContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mainGrid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  border-top: 1px solid rgba(58, 58, 56, 0.055);
+  border-right: 1px solid rgba(58, 58, 56, 0.055);
+}
+
+.subgrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  width: var(--grid-cell-size);
+  height: var(--grid-cell-size);
+  border-top: 1px solid rgba(58, 58, 56, 0.055);
+  border-right: 1px solid rgba(58, 58, 56, 0.055);
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid rgba(58, 58, 56, 0.055);
+  border-top: 1px solid rgba(58, 58, 56, 0.055);
+  cursor: default;
+  transition:
+    background 900ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 2rem;
+  font-family:'Geist Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: #797979;
+  .letter {
+    display: inline-block;
+  }
+}
+
+.title {
+  margin: 0;
+  font-family:'Inter', sans-serif;
+  font-size: clamp(4rem, 9vw, 9rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: #3a3a38;
+}
+
+.title sup {
+  position: relative;
+  top: -0.55em;
+  margin-left: 0.12em;
+  font-family: var(--mono);
+  font-size: 0.16em;
+  letter-spacing: 0;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 520px;
+  }
+
+  .title {
+    font-size: clamp(3.5rem, 16vw, 6rem);
+  }
+  .eyebrow {
+    display: inline-flex;
+    overflow: hidden;
+  }
+
+  .letter {
+    opacity: 0;
+    transform: translateY(100%);
+    animation: letterReveal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--i) * 0.045s);
+  }
+}
+
+@keyframes letterReveal {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,28 @@
+
+  .sheet {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+
+  background-size: 80px 80px;
+  background-position: center top;
+
+  pointer-events: none;
+  --grid: rgba(79, 79, 76, 0.035);
+}
+
+.sheet > * {
+  position: relative;
+  z-index: 1;
+}
