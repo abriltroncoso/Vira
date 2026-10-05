@@ -5,7 +5,7 @@ const ITEMS = [
   {
     title: 'Diseño & gestión de redes sociales',
     description:
-      'Creamos contenido estratégico, piezas visuales y una comunicación coherente para que tu marca tenga presencia y conecte con su audiencia.',
+      'Creamos contenido estratégico y una comunicación coherente para que tu marca tenga presencia y conecte con su audiencia.',
   },
   {
     title: 'Diseño - desarrollo web & mobile',
