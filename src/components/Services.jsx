@@ -1,5 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import './services.css'
+
+/* Cambiá esto por el destino real del botón (sección, mailto, etc.) */
+const CONTACT_HREF = "mailto:somosvira.studio@gmail.com?subject=Consulta%20de%20trabajo&body=Hola%20Vira!%20Me%20interesar%C3%ADa%20trabajar%20con%20ustedes"
 
 const ITEMS = [
   {
@@ -24,115 +27,101 @@ const ITEMS = [
   },
 ]
 
-
 /* =========================================================
-   TEXTO QUE SE OSCURECE CON EL SCROLL
+   TÍTULO QUE SE "PINTA" DE NEGRO CON EL SCROLL
+   Gris opaco → negro, letra por letra, de izquierda a derecha
    ========================================================= */
 
-function ScrollText({ children }) {
-  const containerRef = useRef(null)
+const clamp = (value) => Math.max(0, Math.min(1, value))
 
-  const words = children.trim().split(/\s+/)
+function ScrollHeading({ children, ...props }) {
+  const ref = useRef(null)
+
+  const text = children.trim()
+  const words = text.split(/\s+/)
 
   useEffect(() => {
-    const container = containerRef.current
+    const el = ref.current
+    if (!el) return
 
-    if (!container) return
+    const chars = el.querySelectorAll('.scroll-char')
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
 
-    const updateWords = () => {
-      const wordElements =
-        container.querySelectorAll('.scroll-word')
+    const FROM = 178 // gris opaco
+    const TO = 17 // casi negro
+    const SOFTNESS = 4 // cuántas letras tiene el "degradé" del barrido
 
-      const viewportHeight = window.innerHeight
+    const paint = () => {
+      let progress = 1
 
-      /*
-        Zona donde empieza a oscurecerse
-      */
-      const start = viewportHeight * 0.82
-
-      /*
-        Zona donde la palabra ya está completamente oscura
-      */
-      const end = viewportHeight * 0.42
-
-      wordElements.forEach((word) => {
-        const rect = word.getBoundingClientRect()
-
+      if (!reduceMotion) {
+        const vh = window.innerHeight
+        const rect = el.getBoundingClientRect()
         const center = rect.top + rect.height / 2
 
-        let progress =
-          (start - center) / (start - end)
+        // Empieza a pintarse cuando el título está al 88% de la pantalla
+        // y termina cuando llega al 50%
+        const start = vh * 0.88
+        const end = vh * 0.5
 
-        progress = Math.max(
-          0,
-          Math.min(1, progress)
-        )
+        progress = clamp((start - center) / (start - end))
+      }
 
-        /*
-          Gris claro → negro
-        */
-        const light = Math.round(165 - 125 * progress)
+      const sweep = progress * (chars.length + SOFTNESS)
 
-        word.style.color = `rgb(${light}, ${light}, ${light})`
+      chars.forEach((char, i) => {
+        const p = clamp((sweep - i) / SOFTNESS)
+        const value = Math.round(FROM + (TO - FROM) * p)
+        char.style.color = `rgb(${value}, ${value}, ${value})`
       })
     }
 
-    updateWords()
+    paint()
+
+    if (reduceMotion) return
 
     let ticking = false
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateWords()
-          ticking = false
-        })
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
 
-        ticking = true
-      }
+      window.requestAnimationFrame(() => {
+        paint()
+        ticking = false
+      })
     }
 
-    window.addEventListener(
-      'scroll',
-      handleScroll,
-      { passive: true }
-    )
-
-    window.addEventListener(
-      'resize',
-      updateWords
-    )
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', paint)
 
     return () => {
-      window.removeEventListener(
-        'scroll',
-        handleScroll
-      )
-
-      window.removeEventListener(
-        'resize',
-        updateWords
-      )
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', paint)
     }
   }, [])
 
   return (
-    <p
-      ref={containerRef}
-      className="services__scroll-text"
-    >
-      {words.map((word, index) => (
-        <span
-          className="scroll-word"
-          key={`${word}-${index}`}
-        >
-          {word}{' '}
-        </span>
-      ))}
-    </p>
+    <h2 ref={ref} aria-label={text} {...props}>
+      <span aria-hidden="true">
+        {words.map((word, wordIndex) => (
+          <Fragment key={`${word}-${wordIndex}`}>
+            {wordIndex > 0 && ' '}
+            <span className="scroll-word">
+              {[...word].map((char, charIndex) => (
+                <span className="scroll-char" key={charIndex}>
+                  {char}
+                </span>
+              ))}
+            </span>
+          </Fragment>
+        ))}
+      </span>
+    </h2>
   )
 }
-
 
 /* =========================================================
    SERVICES
@@ -142,85 +131,57 @@ export default function Services() {
   const [active, setActive] = useState(null)
 
   return (
-    <section
-      className="services"
-      id="servicios"
-      data-flow-section
-    >
-
-      <div className="services__intro">
-
-        <h2 data-flow-item="1">
-          Nuestros servicios
-        </h2>
-
-        <ScrollText>
-          Diseñamos marcas que se sienten vivas, webs que funcionan y contenido que conecta. Combinamos estrategia, diseño y tecnología para construir experiencias digitales con identidad, coherencia y una mirada contemporánea para hacer crecer cada proyecto.
-        </ScrollText>
-
-        <a
-          className="btn"
-          href="mailto:somovira.studio@gmail.com?subject=Quiero%20trabajar%20con%20Vira%20Studio&body=Hola%20Vira%20Studio,%0A%0AMe%20gustaría%20recibir%20más%20información%20sobre%20sus%20servicios."
-          data-flow-item="3"
-        >
-          <span className="btn__track">
-            <span className="btn__text">
-              Contactanos
-            </span>
-          </span>
-        </a>
-
-      </div>
-
+    <section className="services" id="servicios" data-flow-section>
+      <ScrollHeading data-flow-item="1">Nuestros servicios</ScrollHeading>
 
       <ul
-        className={`services__list ${
-          active !== null ? 'has-active' : ''
-        }`}
+        className={`services__list ${active !== null ? 'has-active' : ''}`}
       >
+        {ITEMS.map((item, index) => {
+          const isActive = active === index
 
-        {ITEMS.map((item, index) => (
+          return (
+            <li
+              key={item.title}
+              className={`service-item ${isActive ? 'is-active' : ''}`}
+              data-flow-item={index + 1}
+              style={{ '--item-index': index }}
+              tabIndex={0}
+              onMouseEnter={() => setActive(index)}
+              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(index)}
+              onBlur={(e) => {
+                // Si el foco pasa al botón de adentro, no cerramos
+                if (!e.currentTarget.contains(e.relatedTarget)) {
+                  setActive(null)
+                }
+              }}
+            >
+              <span className="services__number">0{index + 1}</span>
 
-          <li
-            key={item.title}
-            className="service-item"
-            data-flow-item={index + 1}
-            style={{
-              '--item-index': index,
-            }}
-            onMouseEnter={() => setActive(index)}
-            onMouseLeave={() => setActive(null)}
-          >
+              <span className="services__name">{item.title}</span>
 
-            <span className="services__number">
-              0{index + 1}
-            </span>
-
-            <div className="services__content">
-
-              <span className="services__name">
-                {item.title}
+              <span className="services__chevron" aria-hidden="true">
+                ↗
               </span>
 
-              <div className="services__description">
-                {item.description}
+              <div className="services__reveal">
+                <div className="services__reveal-inner">
+                  <div className="services__reveal-content">
+                    <p className="services__description">
+                      {item.description}
+                    </p>
+
+                    <a className="services__cta" href={CONTACT_HREF}>
+                      Contactanos
+                    </a>
+                  </div>
+                </div>
               </div>
-
-            </div>
-
-            <span
-              className="services__chevron"
-              aria-hidden="true"
-            >
-              ↗
-            </span>
-
-          </li>
-
-        ))}
-
+            </li>
+          )
+        })}
       </ul>
-
     </section>
   )
 }

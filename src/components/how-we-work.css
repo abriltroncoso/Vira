@@ -18,9 +18,11 @@
   
   .how__header {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    grid-template-columns: 1fr ;
+    gap: 2rem;
     margin-bottom: 1rem;
+    justify-items:start;
+    text-align: start;
   }
   
   .how__eyebrow {
@@ -61,13 +63,14 @@
   .how__stack {
     position: relative;
     margin-top: 2rem;
+    margin-bottom: 10rem;
   }
   
   /* Cada wrapper ocupa una pantalla y queda "pegado" arriba */
   .how-card-wrap {
     position: sticky;
     top: 0;
-    height: 50vh;
+    height: 40vh;
     display: flex;  
     align-items: center;
     justify-content: center;
@@ -104,10 +107,10 @@
   
     font-family: 'Inter', sans-serif;
     font-size: 1.9rem;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 1;
     letter-spacing: -0.03em;
-    text-transform: uppercase;
+
   }
   
   .how-card__body p {
