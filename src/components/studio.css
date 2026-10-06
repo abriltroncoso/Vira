@@ -171,4 +171,13 @@
     .studio__copy {
       justify-self: start;
     }
+    .studio__copy {
+      order: 1;
+      justify-self: start;
+    }
+    
+    .studio__photos {
+      order: 2;
+      min-height: 20rem;
+    }
   }

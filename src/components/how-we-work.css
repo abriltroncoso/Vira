@@ -156,9 +156,16 @@
       max-width: 22rem;
     }
   
+    .how__stack .how-card-wrap:first-child .how-card {
+      box-shadow: 0 10px 24px rgba(40, 40, 38, 0.10);
+    }
     .how-card {
       height: 15rem;
       padding: 1.8rem 1.6rem 1.6rem;
+      box-shadow:
+    0 -14px 28px rgba(40, 40, 38, 0.22),
+    0 -4px 10px rgba(40, 40, 38, 0.14),
+    0 10px 24px rgba(40, 40, 38, 0.10);
     }
   
     .how-card__body h3 {
