@@ -22,15 +22,14 @@
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.22em;
-  text-transform: lowercase;
   color: #7a7974;
-
+  text-transform: uppercase;
   margin-bottom: 2.6rem;
 }
 
 .eyebrow__letter {
   display: inline-block;
-
+  text-transform: uppercase;
   opacity: 0;
   transform: translateY(110%);
 

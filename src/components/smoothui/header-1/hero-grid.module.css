@@ -100,7 +100,7 @@
   font-weight: 500;
 
   letter-spacing: 0.18em;
-  text-transform: lowercase;
+  text-transform: uppercase;
 
   color: #797979;
 }
@@ -136,6 +136,20 @@
   font-size: 0.16em;
 
   letter-spacing: 0;
+}
+.title {
+  --title-size: clamp(4rem, 9vw, 9rem);
+  line-height: 0;
+}
+
+.title img {
+  display: block;
+  width: auto;
+  max-width: 90vw;
+  height: calc(var(--title-size) * 1.2);
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 /* =========================================================

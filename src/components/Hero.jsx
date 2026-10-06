@@ -4,10 +4,9 @@ const text = 'diseño y desarrollo digital';
 
 export default function Hero() {
   return (
-    <section  className={styles.hero}
-         data-flow-section>
+    <section className="hero" data-flow-section>
       <p className="eyebrow">
-        {text.split('').map((letter, index) => (
+        {text.toUpperCase().split('').map((letter, index) => (
           <span
             className="eyebrow__letter"
             key={index}

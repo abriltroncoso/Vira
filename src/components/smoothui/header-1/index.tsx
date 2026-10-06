@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./hero-grid.module.css";
 
-const text = "Diseño y desarrollo digital.";
+const text = "DISEÑO Y DESARROLLO.";
 
 const CELL_SIZE = 120;
 
@@ -625,8 +625,7 @@ export default function HeroGrid() {
             styles.title
           }
         >
-          Vira Studio.
-          <sup>®</sup>
+         <img src="/VS.png" alt="" />
         </h1>
       </div>
     </section>
