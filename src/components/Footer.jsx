@@ -4,7 +4,7 @@ export default function Footer() {
     <footer className="footer" id="contacto">
       <div className="footer__top">
         <a href="mailto:hola@virastudio.com">Mail</a>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer">
+        <a href="https://www.instagram.com/somosvira.studio/?hl=en" target="_blank" rel="noreferrer">
           Instagram
         </a>
       </div>
