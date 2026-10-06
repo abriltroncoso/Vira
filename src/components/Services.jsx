@@ -47,7 +47,7 @@ export default function Services() {
 
         <a
           className="btn"
-          href="#contacto"
+          href="somovira.studio@gmail.com"
           data-flow-item="3"
         >
           <span className="btn__track">

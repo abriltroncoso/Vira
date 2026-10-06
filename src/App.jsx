@@ -5,6 +5,7 @@ import Studio from './components/Studio.jsx'
 import Footer from './components/Footer.jsx'
 import './components/scrollflow.css'
 import ScrollFlow from './components/Scrollflow.jsx'
+import HowWeWork from './components/HowWeWork.jsx'
 export default function App() {
   return (
     <>
@@ -14,6 +15,7 @@ export default function App() {
         <main>
           <HeroGrid />
           <Services />
+          <HowWeWork/>
           <Studio />
         </main>
       </div>
