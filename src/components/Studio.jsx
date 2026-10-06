@@ -38,7 +38,7 @@ export default function Studio() {
         <Polaroid
           name="Victoria"
           className="polaroid--victoria"
-          image="/public/vicky.jpeg"
+          image="/vicky.jpeg"
           isFront={front === 'victoria'}
           onClick={() => setFront('victoria')}
         />
@@ -46,7 +46,7 @@ export default function Studio() {
         <Polaroid
           name="Abril"
           className="polaroid--abril"
-          image="/public/abril.png"
+          image="/abril.png"
           isFront={front === 'abril'}
           onClick={() => setFront('abril')}
         />
