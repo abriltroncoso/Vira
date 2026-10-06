@@ -46,16 +46,16 @@ export default function Services() {
         </p>
 
         <a
-          className="btn"
-          href="somovira.studio@gmail.com"
-          data-flow-item="3"
-        >
-          <span className="btn__track">
-            <span className="btn__text">
-              Contactanos
-            </span>
+        className="btn"
+        href="mailto:somovira.studio@gmail.com?subject=Quiero%20trabajar%20con%20Vira%20Studio&body=Hola%20Vira%20Studio,%0A%0AMe%20gustaría%20recibir%20más%20información%20sobre%20sus%20servicios."
+        data-flow-item="3"
+      >
+        <span className="btn__track">
+          <span className="btn__text">
+            Contactanos
           </span>
-        </a>
+        </span>
+</a>
       </div>
 
       <ul

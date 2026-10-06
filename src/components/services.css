@@ -76,102 +76,135 @@
      BOTÓN
      ========================================================= */
   
-  .btn {
+ /* =========================================================
+   BOTÓN — ESTILO CARTAS
+   ========================================================= */
+   .btn {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-  
     margin-top: 1.6rem;
-    padding: 0;
-  
     width: 132px;
-    height: 38px;
-  
+    height: 42px;
+    padding: 0;
     overflow: hidden;
-  
-    background: #2c3f8e;
-    color: #fff;
-  
-    font-family: 'Geist Mono', monospace;
-    font-size: 0.58rem;
-    font-weight: 500;
+    background: #2A3F90;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     text-decoration: none;
+    border: 0;
+    border-radius: 0.8rem;
   
-    border-radius: 2px;
+    box-shadow:
+      0 10px 18px rgba(40, 40, 38, 0.10),
+      0 20px 40px rgba(40, 40, 38, 0.16),
+      0 30px 60px rgba(40, 40, 38, 0.10);
   
-    transition: background 600ms ease;
+    cursor: pointer;
+    transform: translateY(0);
+  
+    transition:
+      transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 500ms ease,
+      background 400ms ease;
   }
-  
-  .btn__track {
-    position: relative;
-    z-index: 2;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  
-    width: 100%;
+
+
+/* =========================================================
+   CONTENIDO
+   ========================================================= */
+
+.btn__track {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+}
+
+
+.btn__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  font-family:'Inter', sans-serif;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.btn:hover {
+  background: #ecf4ff;
+
+  transform: translateY(-6px);
+
+  box-shadow: 0 24px 60px rgba(40, 40, 38, 0.20);
+}
+
+
+/* =========================================================
+   BRILLO
+   ========================================================= */
+
+.btn::after {
+  content: '';
+
+  position: absolute;
+  z-index: 1;
+
+  top: 0;
+  left: -120%;
+
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0.08) 80%,
+    transparent 100%
+  );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   ANIMACIÓN DEL BRILLO
+   ========================================================= */
+
+.btn:hover::after {
+  animation: buttonShine 900ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes buttonShine {
+  from {
+    left: -120%;
   }
-  
-  .btn__text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  
-    width: 100%;
-    height: 38px;
-    flex-shrink: 0;
-  
-    font-family: sans-serif;
+
+  to {
+    left: 120%;
   }
-  
-  
-  /* =========================================================
-     BRILLO DEL BOTÓN
-     ========================================================= */
-  
-  .btn::after {
-    content: '';
-  
-    position: absolute;
-    z-index: 1;
-  
-    top: 0;
-    left: -190%;
-  
-    width: 200%;
-    height: 100%;
-  
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.08) 20%,
-      rgba(255, 255, 255, 0.55) 50%,
-      rgba(255, 255, 255, 0.08) 80%,
-      transparent 100%
-    );
-  
-    pointer-events: none;
-    transform: none;
-  }
-  
-  .btn:hover::after {
-    animation: buttonShine 5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  @keyframes buttonShine {
-    from {
-      left: -35%;
-    }
-  
-    to {
-      left: 120%;
-    }
-  }
-  
+}
   
   /* =========================================================
      LISTA
@@ -411,7 +444,7 @@
       gap: 2.5rem;
   
       padding-top: 3rem;
-      padding-bottom: 5rem;
+      padding-bottom: 0.5rem;
     }
   
     .services__list li {
