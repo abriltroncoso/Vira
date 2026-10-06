@@ -67,16 +67,17 @@
   .how-card-wrap {
     position: sticky;
     top: 0;
-    height: 100vh;
-    display: flex;
+    height: 50vh;
+    display: flex;  
     align-items: center;
     justify-content: center;
   }
   
   .how-card {
+    margin-top: 3rem;
     position: relative; /* necesario para el `top` inline de cada carta */
     width: min(100%, 44rem);
-    height: 22rem;
+    height: 15rem;
     padding: 2.4rem 2.6rem 2.2rem;
   
     display: flex;
@@ -153,7 +154,7 @@
     }
   
     .how-card {
-      height: 20rem;
+      height: 15rem;
       padding: 1.8rem 1.6rem 1.6rem;
     }
   
