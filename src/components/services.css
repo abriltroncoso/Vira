@@ -407,8 +407,58 @@
   
     transform: rotate(45deg);
   }
+  /* =========================================================
+   TEXTO — REVEAL POR SCROLL
+   ========================================================= */
+
+.services__scroll-text {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+
+  margin: 0;
+
+  color: #b8b8b8;
+}
+
+
+.scroll-word {
+  --word-progress: 0;
+
+  color: color-mix(
+    in srgb,
+    #b8b8b8 calc((1 - var(--word-progress)) * 100%),
+    #2a2a28
+  );
+
+  transition: color 120ms linear;
+}
+  
+/* =========================================================
+   TEXTO — OSCURECER CON SCROLL
+   ========================================================= */
+
+   .services__scroll-text {
+    margin: 0;
+  
+    font-family: 'Inter', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 400;
+    line-height: 1.55;
+  
+    color: #a5a5a5;
+  }
   
   
+  /* Cada palabra */
+  
+  .scroll-word {
+    display: inline;
+    color: #a5a5a5;
+  
+    transition: color 120ms linear;
+  }
   /* =========================================================
      DESKTOP
      ========================================================= */

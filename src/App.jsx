@@ -6,6 +6,7 @@ import Footer from './components/Footer.jsx'
 import './components/scrollflow.css'
 import ScrollFlow from './components/Scrollflow.jsx'
 import HowWeWork from './components/HowWeWork.jsx'
+import SmoothScroll from './components/SmoothScroll.jsx'
 export default function App() {
   return (
     <>
@@ -22,6 +23,7 @@ export default function App() {
 
       <Footer />
       <ScrollFlow />
+      <SmoothScroll/>
     </>
   )
 }

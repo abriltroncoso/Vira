@@ -6,7 +6,10 @@
     width: min(1180px, calc(100% - 2.5rem));
     margin-inline: auto;
     padding: 7rem 0 8rem;
-    overflow: hidden;
+  
+    /* IMPORTANTE: "overflow: hidden" rompe position: sticky.
+       "clip" recorta igual pero no crea un contenedor de scroll. */
+    overflow: clip;
   }
   
   /* =========================================================
@@ -52,70 +55,41 @@
   }
   
   /* =========================================================
-     CARTAS (abanico)
+     STACK (cartas sticky)
      ========================================================= */
   
-  .how__cards {
+  .how__stack {
     position: relative;
-    height: 30rem;
+    margin-top: 2rem;
+  }
+  
+  /* Cada wrapper ocupa una pantalla y queda "pegado" arriba */
+  .how-card-wrap {
+    position: sticky;
+    top: 0;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1400px;
   }
   
   .how-card {
-    --tilt: 0deg;
-    --spread: 13rem; /* separación horizontal entre cartas */
-  
-    position: absolute;
-    width: 14rem;
-    height: 20rem;
-    padding: 2rem 1.9rem 1.8rem;
+    position: relative; /* necesario para el `top` inline de cada carta */
+    width: min(100%, 44rem);
+    height: 22rem;
+    padding: 2.4rem 2.6rem 2.2rem;
   
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   
-    background: #2A3F90;
+    background: #2a3f90;
     color: #ffffff;
-    border: 0;
     border-radius: 1.5rem;
     box-shadow: 0 18px 45px rgba(40, 40, 38, 0.14);
   
-    cursor: pointer;
-    transform-origin: center center;
-  
-    transform: translateX(calc(var(--offset) * var(--spread)))
-      rotate(var(--tilt));
-  
-    transition:
-      transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 500ms ease;
-      
-      
-  }
-  
-  /* Inclinación alternada + orden de apilado, como en la referencia */
-  .how-card[data-offset='-2'] { --tilt: -6deg;  z-index: 1; }
-  .how-card[data-offset='-1'] { --tilt: 3deg;   z-index: 2; }
-  .how-card[data-offset='0']  { --tilt: 0deg;   z-index: 10; }
-  .how-card[data-offset='1']  { --tilt: -3.5deg; z-index: 3; }
-  .how-card[data-offset='2']  { --tilt: 6deg;   z-index: 4; }
-  
-  /* Activa: al frente, derecha y levantada */
-  .how-card.is-active {
-    transform: translateY(-14px) rotate(0deg);
-    box-shadow: 0 28px 70px rgba(40, 40, 38, 0.22);
-  }
-  
-  @media (hover: hover) and (pointer: fine) {
-    .how-card:not(.is-active):hover {
-      transform: translateX(calc(var(--offset) * var(--spread)))
-        translateY(-14px) rotate(var(--tilt));
-      box-shadow: 0 24px 40px rgba(20, 20, 38, 0.2);
-      z-index: 2000;
-    }
+    transform-origin: top center; /* se achica hacia arriba, como en Skiper */
+    will-change: transform;
   }
   
   /* =========================================================
@@ -125,11 +99,10 @@
   .how-card__body h3 {
     margin: 0 0 1.2rem;
     padding-bottom: 1.1rem;
-  
-    border-bottom: 1px solid rgb(255, 255, 255);
+    border-bottom: 1px solid #ffffff;
   
     font-family: 'Inter', sans-serif;
-    font-size: 1.55rem;
+    font-size: 1.9rem;
     font-weight: 600;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -138,10 +111,10 @@
   
   .how-card__body p {
     margin: 0;
-    max-width: 24rem;
+    max-width: 30rem;
   
     font-family: 'Inter', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     line-height: 1.55;
     color: #ffffff;
   }
@@ -158,57 +131,10 @@
   
   .how-card__arrow {
     display: inline-block;
-    transition: transform 400ms ease;
-  }
-  
-  .how-card:hover .how-card__arrow {
-    transform: translateX(4px);
-   
   }
   
   /* =========================================================
-     CONTROLES
-     ========================================================= */
-  
-  .how__controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  
-  .how__controls button {
-    width: 2.2rem;
-    height: 2.2rem;
-    border: 1px solid rgba(40, 40, 38, 0.16);
-    border-radius: 50%;
-    background: transparent;
-    color: #3a3a38;
-    cursor: pointer;
-    transition:
-      background 300ms ease,
-      color 300ms ease,
-      transform 300ms ease;
-  }
-  
-  .how__controls button:hover {
-    background: #2c3f8e;
-    color: #fff;
-    transform: scale(1.05);
-  }
-  
-  .how__controls span {
-    min-width: 4rem;
-    text-align: center;
-    font-family: 'Geist Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    color: #797979;
-  }
-  
-  /* =========================================================
-     MOBILE (mazo apilado)
+     MOBILE
      ========================================================= */
   
   @media (max-width: 859px) {
@@ -219,47 +145,19 @@
     .how__header {
       grid-template-columns: 1fr;
       gap: 1.5rem;
-      margin-bottom: 3rem;
+      margin-bottom: 1rem;
     }
   
     .how__header > p {
       max-width: 22rem;
     }
   
-    .how__cards {
-      height: 25rem;
-    }
-  
     .how-card {
-      width: min(80%, 12rem);
-      height: 18rem;
-     
-    }
-  
-    .how-card[data-offset] {
-      transform: translateY(calc(var(--position) * 0.7rem))
-        scale(calc(1 - (var(--position) * 0.03))) rotate(0deg);
-      z-index: calc(10 - var(--position));
-      transform: rotate(-4.5deg);
-    }
-  
-    .how-card.is-active[data-offset] {
-      transform: translateY(0) scale(1) rotate(0deg);
+      height: 20rem;
+      padding: 1.8rem 1.6rem 1.6rem;
     }
   
     .how-card__body h3 {
-      font-size: 1.4rem;
-    }
-  }
-  
-  /* =========================================================
-     REDUCED MOTION
-     ========================================================= */
-  
-  @media (prefers-reduced-motion: reduce) {
-    .how-card,
-    .how-card__arrow,
-    .how__controls button {
-      transition: none;
+      font-size: 1.5rem;
     }
   }

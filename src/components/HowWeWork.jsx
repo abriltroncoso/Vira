@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import './how-we-work.css'
 
 const STEPS = [
@@ -29,18 +30,51 @@ const STEPS = [
   },
 ]
 
-const HALF = Math.floor(STEPS.length / 2)
+function StackCard({ step, index, total, progress }) {
+  const reduceMotion = useReducedMotion()
 
-export default function HowWeWork() {
-  const [active, setActive] = useState(0)
-
-  const next = () => setActive((c) => (c + 1) % STEPS.length)
-  const previous = () =>
-    setActive((c) => (c - 1 + STEPS.length) % STEPS.length)
+  // Cada carta se achica más cuanto más "atrás" queda en la pila
+  const targetScale = 1 - (total - index - 1) * 0.06
+  const scale = useTransform(
+    progress,
+    [index / total, 1],
+    [1, reduceMotion ? 1 : targetScale]
+  )
 
   return (
-    <section className="how" id="como-trabajamos" data-flow-section>
-      <div className="how__header">
+    <div className="how-card-wrap">
+      <motion.article
+        className="how-card"
+        style={{
+          scale,
+          top: `calc(-4vh + ${index * 26}px)`, // deja asomar el borde de las anteriores
+        }}
+      >
+        <div className="how-card__body">
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </div>
+
+        <div className="how-card__cta">
+          <span>{step.number}</span>
+          <span className="how-card__arrow">→</span>
+        </div>
+      </motion.article>
+    </div>
+  )
+}
+
+export default function HowWeWork() {
+  const stackRef = useRef(null)
+
+  const { scrollYProgress } = useScroll({
+    target: stackRef,
+    offset: ['start start', 'end end'],
+  })
+
+  return (
+    <section className="how" id="como-trabajamos">
+      <div className="how__header"  data-flow-section>
         <div>
           <span className="how__eyebrow">nuestro proceso</span>
           <h2 data-flow-item="1">Cómo trabajamos</h2>
@@ -52,49 +86,16 @@ export default function HowWeWork() {
         </p>
       </div>
 
-      <div className="how__cards">
-        {STEPS.map((step, index) => {
-          // -2 … 0 … +2: la carta activa queda en el centro del abanico
-          const offset =
-            ((index - active + HALF + STEPS.length) % STEPS.length) - HALF
-          // 0 … n-1: lo usa el mazo en mobile
-          const position = (index - active + STEPS.length) % STEPS.length
-
-          return (
-            <article
-              key={step.number}
-              className={`how-card ${offset === 0 ? 'is-active' : ''}`}
-              data-offset={offset}
-              style={{ '--offset': offset, '--position': position }}
-              onClick={() => setActive(index)}
-            >
-              <div className="how-card__body">
-                <h3>{step.title}</h3>
-                <p>{step.text}</p>
-              </div>
-
-              <div className="how-card__cta">
-                <span>{step.number}</span>
-                <span className="how-card__arrow">→</span>
-              </div>
-            </article>
-          )
-        })}
-      </div>
-
-      <div className="how__controls">
-        <button type="button" onClick={previous} aria-label="Proceso anterior">
-          ←
-        </button>
-
-        <span>
-          {String(active + 1).padStart(2, '0')} /{' '}
-          {String(STEPS.length).padStart(2, '0')}
-        </span>
-
-        <button type="button" onClick={next} aria-label="Siguiente proceso">
-          →
-        </button>
+      <div className="how__stack" ref={stackRef}>
+        {STEPS.map((step, i) => (
+          <StackCard
+            key={step.number}
+            step={step}
+            index={i}
+            total={STEPS.length}
+            progress={scrollYProgress}
+          />
+        ))}
       </div>
     </section>
   )
