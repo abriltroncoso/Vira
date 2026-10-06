@@ -165,3 +165,82 @@
       font-size: 1.5rem;
     }
   }
+  /* =========================================================
+   DESKTOP — ABANICO
+   ========================================================= */
+
+@media (min-width: 860px) {
+  .how {
+    overflow: visible;
+  }
+  .how__stack.how__stack--fan {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    margin-top: 0rem;
+    margin-bottom: 2rem;
+    padding: 3rem 0 3rem; /* espacio para que la carta suba sin recortarse */
+  }
+
+  /* El wrapper deja de ser sticky y se superpone con el vecino */
+  .how__stack--fan .how-card-wrap {
+    position: relative;
+    top: auto;
+    height: auto;
+
+    display: block;
+    flex: 0 0 280px;
+    margin-inline: -40px;
+  }
+
+  .how-card.how-card--fan {
+    width: 80%;
+    height: 19rem;
+    margin-top: 0;
+    padding: 1.8rem 1.6rem 1.6rem;
+    z-index: 99999999999;
+    transform: translateY(var(--y)) rotate(var(--rot));
+    transform-origin: 50% 120%; /* gira desde abajo, como un abanico */
+
+    transition:
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 600ms ease,
+      filter 400ms ease;
+
+    cursor: pointer;
+  }
+
+  .how-card--fan .how-card__body h3 {
+    font-size: 1.45rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.9rem;
+  }
+
+  .how-card--fan .how-card__body p {
+    font-size: 0.85rem;
+  }
+
+  /* La carta activa pasa al frente */
+  .how__stack--fan .how-card-wrap:hover,
+  .how__stack--fan .how-card-wrap:focus-within {
+    z-index: 20 !important;
+  }
+
+  .how__stack--fan .how-card-wrap:hover .how-card--fan,
+  .how__stack--fan .how-card-wrap:focus-within .how-card--fan {
+    transform: translateY(-40px) rotate(0deg) scale(1.06);
+    box-shadow: 0 30px 60px rgba(40, 40, 38, 0.28);
+  }
+
+  /* Las demás se atenúan un poco */
+  .how__stack--fan:hover .how-card-wrap:not(:hover) .how-card--fan {
+    filter: brightness(0.92);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .how-card.how-card--fan {
+    transition: none;
+  }
+}

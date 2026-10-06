@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import './how-we-work.css'
 
@@ -30,10 +30,27 @@ const STEPS = [
   },
 ]
 
+/* Detecta desktop (abanico) vs mobile (pila) */
+function useIsDesktop(query = '(min-width: 860px)') {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(query).matches : false
+  )
+
+  useEffect(() => {
+    const mql = window.matchMedia(query)
+    const onChange = (e) => setMatches(e.matches)
+    setMatches(mql.matches)
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [query])
+
+  return matches
+}
+
+/* MOBILE: pila con scroll */
 function StackCard({ step, index, total, progress }) {
   const reduceMotion = useReducedMotion()
 
-  // Cada carta se achica más cuanto más "atrás" queda en la pila
   const targetScale = 1 - (total - index - 1) * 0.06
   const scale = useTransform(
     progress,
@@ -47,7 +64,7 @@ function StackCard({ step, index, total, progress }) {
         className="how-card"
         style={{
           scale,
-          top: `calc(-4vh + ${index * 26}px)`, // deja asomar el borde de las anteriores
+          top: `calc(-4vh + ${index * 26}px)`,
         }}
       >
         <div className="how-card__body">
@@ -64,8 +81,37 @@ function StackCard({ step, index, total, progress }) {
   )
 }
 
+/* DESKTOP: abanico */
+function FanCard({ step, index, total }) {
+  const offset = index - (total - 1) / 2
+
+  return (
+    <div
+      className="how-card-wrap"
+      style={{
+        '--rot': `${offset * 5}deg`,
+        '--y': `${Math.pow(Math.abs(offset), 2) * 14}px`,
+        zIndex: index + 1,
+      }}
+    >
+      <article className="how-card how-card--fan" tabIndex={0}>
+        <div className="how-card__body">
+          <h3>{step.title}</h3>
+          <p>{step.text}</p>
+        </div>
+
+        <div className="how-card__cta">
+          <span>{step.number}</span>
+          <span className="how-card__arrow">→</span>
+        </div>
+      </article>
+    </div>
+  )
+}
+
 export default function HowWeWork() {
   const stackRef = useRef(null)
+  const isDesktop = useIsDesktop()
 
   const { scrollYProgress } = useScroll({
     target: stackRef,
@@ -74,7 +120,7 @@ export default function HowWeWork() {
 
   return (
     <section className="how" id="como-trabajamos">
-      <div className="how__header"  data-flow-section>
+      <div className="how__header" data-flow-section>
         <div>
           <span className="how__eyebrow">nuestro proceso</span>
           <h2 data-flow-item="1">Cómo trabajamos</h2>
@@ -86,16 +132,28 @@ export default function HowWeWork() {
         </p>
       </div>
 
-      <div className="how__stack" ref={stackRef}>
-        {STEPS.map((step, i) => (
-          <StackCard
-            key={step.number}
-            step={step}
-            index={i}
-            total={STEPS.length}
-            progress={scrollYProgress}
-          />
-        ))}
+      <div
+        className={`how__stack ${isDesktop ? 'how__stack--fan' : ''}`}
+        ref={stackRef}
+      >
+        {STEPS.map((step, i) =>
+          isDesktop ? (
+            <FanCard
+              key={step.number}
+              step={step}
+              index={i}
+              total={STEPS.length}
+            />
+          ) : (
+            <StackCard
+              key={step.number}
+              step={step}
+              index={i}
+              total={STEPS.length}
+              progress={scrollYProgress}
+            />
+          )
+        )}
       </div>
     </section>
   )
